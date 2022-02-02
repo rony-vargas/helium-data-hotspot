@@ -54,13 +54,13 @@ RUN mkdir -p /opt/iotloragateway/packetforwarder
 
 # Compile for sx1301 concentrator on all the necessary SPI buses
 RUN ./buildfiles/compileSX1301.sh spidev0.0
-RUN ./buildfiles/compileSX1301.sh spidev0.1
-RUN ./buildfiles/compileSX1301.sh spidev1.0
-RUN ./buildfiles/compileSX1301.sh spidev1.1
-RUN ./buildfiles/compileSX1301.sh spidev1.2
-RUN ./buildfiles/compileSX1301.sh spidev2.0
-RUN ./buildfiles/compileSX1301.sh spidev2.1
-RUN ./buildfiles/compileSX1301.sh spidev32766.0
+#RUN ./buildfiles/compileSX1301.sh spidev0.1
+#RUN ./buildfiles/compileSX1301.sh spidev1.0
+#RUN ./buildfiles/compileSX1301.sh spidev1.1
+#RUN ./buildfiles/compileSX1301.sh spidev1.2
+#RUN ./buildfiles/compileSX1301.sh spidev2.0
+#RUN ./buildfiles/compileSX1301.sh spidev2.1
+#RUN ./buildfiles/compileSX1301.sh spidev32766.0
 
 # Compile for sx1302 concentrator
 RUN ./buildfiles/compileSX1302.sh
@@ -91,9 +91,9 @@ COPY --from=builder /opt/iotloragateway/packetforwarder .
 # Copy sx1301 regional config templates
 COPY lora_templates_sx1301 lora_templates_sx1301/
 
-# Use EU config as initial default
+# Use US config as initial default
 COPY lora_templates_sx1301/local_conf.json local_conf.json
-COPY lora_templates_sx1301/EU-global_conf.json global_conf.json
+COPY lora_templates_sx1301/US-global_conf.json global_conf.json
 
 # Move to sx1302 directory
 WORKDIR /opt/iotloragateway/packet_forwarder/sx1302

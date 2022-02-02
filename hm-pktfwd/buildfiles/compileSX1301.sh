@@ -1,10 +1,11 @@
-#! /bin/bash
+#!/bin/bash
 echo "Compiling for $1"
 
 cd /opt/iotloragateway/dev/lora_gateway/libloragw || exit
 rm src/loragw_spi.native.c
 cp src/loragw_spi.native.c.template src/loragw_spi.native.c
 sed -i "s/spidev0.0/$1/g" src/loragw_spi.native.c
+sed -i "s/SPI_SPEED       8000000/SPI_SPEED       2000000/g" src/loragw_spi.native.c
 make clean
 make -j 4
 

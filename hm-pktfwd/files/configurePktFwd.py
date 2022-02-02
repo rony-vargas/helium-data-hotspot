@@ -6,6 +6,11 @@ import os
 import json
 from hm_hardware_defs.variant import variant_definitions
 
+#add custom variant RAK2245
+import rak2245
+variant_definitions.update(rak2245.variant_definitions)
+#end custom variant RAK2245
+
 from time import sleep
 
 variant = os.getenv('VARIANT')
@@ -98,11 +103,15 @@ def writeRegionConfSx1301(regionId):
     regionconfFile = "/opt/iotloragateway/packet_forwarder/sx1301/lora_templates_sx1301/"+regionList[regionId]
     with open(regionconfFile) as regionconfJFile:
         newGlobal = json.load(regionconfJFile)
-    globalPath = "/opt/iotloragateway/packet_forwarder/sx1301/global_conf.json"
+    globalPath = "/opt/iotloragateway/packet_forwarder/global_conf.json"
 
     with open(globalPath, 'w') as jsonOut:
         json.dump(newGlobal, jsonOut)
-
+    
+    localconfFile = "/opt/iotloragateway/packet_forwarder/sx1301/lora_templates_sx1301/local_conf.json"
+    with open(localconfFile) as localconfJFile:
+        newGlobal = json.load(localconfJFile)
+    localPath = "/opt/iotloragateway/packet_forwarder/local_conf.json"
 
 def writeRegionConfSx1302(regionId, spi_bus):
     # Writes the configuration files
