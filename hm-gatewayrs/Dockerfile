@@ -1,4 +1,4 @@
-ARG SYSTEM_TIMEZONE="Europe/London"
+ARG SYSTEM_TIMEZONE="America/Panama"
 
 FROM balenalib/raspberry-pi-debian:buster-run
 
@@ -21,7 +21,7 @@ RUN \
 
 # Pull in latest helium gatewayrs deb file and install
 #RUN wget https://github.com/helium/gateway-rs/releases/download/v1.0.0-alpha.15/helium-gateway-v1.0.0-alpha.15-raspi01.deb
-RUN wget https://github.com/helium/gateway-rs/releases/download/v1.0.0-alpha.19/helium-gateway-v1.0.0-alpha.19-raspi01.deb
+RUN wget https://github.com/helium/gateway-rs/releases/download/v1.0.0-alpha.21/helium-gateway-v1.0.0-alpha.21-raspi01.deb
 RUN dpkg -i helium-gateway-*-raspi01.deb
 
 # Copy start script and settings file
