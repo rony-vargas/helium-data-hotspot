@@ -2,8 +2,8 @@
 
 echo "Starting start-gatewayrs.sh"
 
-rm -f settings.toml
-rm -f /etc/helium_gateway/settings.toml
+#rm -f settings.toml
+#rm -f /etc/helium_gateway/settings.toml
 
 echo "Checking for I2C device"
 
@@ -43,19 +43,21 @@ then
   fi
 else
   echo "Key file already exists"
-  echo 'keypair = "/var/data/gateway_key.bin"' >> settings.toml
+  #echo 'keypair = "/var/data/gateway_key.bin"' >> /etc/helium_gateway/settings.toml
+  sed -i 's#^keypair = .*#keypair = "/var/data/gateway_key.bin"#' /etc/helium_gateway/settings.toml
+  sed -i 's/^listen = .*/listen = "helium-miner:1680"/' /etc/helium_gateway/settings.toml
 fi
 
-cat /etc/helium_gateway/settings.toml.template >> settings.toml
-cp settings.toml /etc/helium_gateway/settings.toml
+#cat /etc/helium_gateway/settings.toml.template >> settings.toml
+#cp settings.toml /etc/helium_gateway/settings.toml
 
 
 echo "Calling helium_gateway server ..."
-/usr/bin/helium_gateway -c /etc/helium_gateway server
+/usr/bin/helium_gateway -c /etc/helium_gateway/settings.toml server
 
 
 echo "Checking key info..."
-if ! PUBLIC_KEYS=$(/usr/bin/helium_gateway -c /etc/helium_gateway key info)
+if ! PUBLIC_KEYS=$(/usr/bin/helium_gateway -c /etc/helium_gateway/settings.toml key info)
 then
   echo "Can't get miner key info"
   #exit 1

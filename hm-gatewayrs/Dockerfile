@@ -1,5 +1,5 @@
 ARG SYSTEM_TIMEZONE=Europe/London
-ARG GATEWAY_RS_RELEASE=v1.0.0-alpha.27
+ARG GATEWAY_RS_RELEASE=v1.0.2
 
 FROM balenalib/raspberry-pi-debian:buster-run
 
@@ -26,12 +26,19 @@ RUN \
 
 # Pull in latest helium gatewayrs deb file and install
 
-RUN wget https://github.com/helium/gateway-rs/releases/download/"$GATEWAY_RS_RELEASE"/helium-gateway-"$GATEWAY_RS_RELEASE"-raspi01.deb
-RUN dpkg -i helium-gateway-*-raspi01.deb
+#RUN wget https://github.com/helium/gateway-rs/releases/download/"$GATEWAY_RS_RELEASE"/helium-gateway-"$GATEWAY_RS_RELEASE"-raspi01.deb
+RUN wget -O - https://github.com/helium/gateway-rs/releases/download/v1.0.2/helium-gateway-1.0.2-arm-unknown-linux-gnueabihf.tar.gz | tar zxf -
+#RUN dpkg -i helium-gateway-*-raspi01.deb
+#ADD helium-gateway-1.0.2-arm-unknown-linux-gnueabihf.tar.gz ./
 
-# Copy start script and settings fil#
+# Copy start script and settings file#
 COPY start-gatewayrs.sh .
-COPY settings.toml.template /etc/helium_gateway/settings.toml.template
+#COPY settings.toml.template /etc/helium_gateway/settings.toml.template
+RUN mkdir /etc/helium_gateway/
+RUN cp settings.toml /etc/helium_gateway/
+RUN cp helium_gateway /usr/bin/
+#COPY settings.toml /etc/helium_gateway/settings.toml
+#COPY helium_gateway /usr/bin/helium_gateway
 
 # Run start-gatewayrs script
 ENTRYPOINT ["/opt/gatewayrs/start-gatewayrs.sh"]
